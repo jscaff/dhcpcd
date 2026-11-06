@@ -31,7 +31,7 @@
 
 #include "if.h"
 
-#if defined(PRIVSEP) && (defined(HAVE_CAPSICUM) || defined(__linux__))
+#if defined(PRIVSEP) && (defined(HAVE_CAPSICUM) || defined(__linux__) || defined(__QNX__))
 #define PRIVSEP_GETIFADDRS
 #endif
 

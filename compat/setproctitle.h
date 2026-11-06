@@ -33,6 +33,7 @@
 #endif
 #endif /* !__printflike */
 
+#ifndef __QNX__
 /* WEXITSTATUS is defined in stdlib.h which defines free() */
 #ifdef WEXITSTATUS
 static inline const char *
@@ -46,6 +47,7 @@ setprogname(char *name)
 	free(name);
 }
 #endif
+#endif // __QNX__
 
 void setproctitle_init(int, char *[], char *[]);
 __printflike(1, 2) void setproctitle(const char *, ...);

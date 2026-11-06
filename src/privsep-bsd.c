@@ -142,7 +142,7 @@ ps_root_doroute(struct dhcpcd_ctx *ctx, void *data, size_t len)
 	return write(ctx->link_fd, data, len);
 }
 
-#if defined(HAVE_CAPSICUM) || defined(HAVE_PLEDGE)
+#if defined(HAVE_CAPSICUM) || defined(HAVE_PLEDGE) || defined(__QNX__)
 static ssize_t
 ps_root_doindirectioctl(struct dhcpcd_ctx *ctx,
     unsigned long req, void *data, size_t len)
@@ -180,7 +180,7 @@ ps_root_doifignoregroup(struct dhcpcd_ctx *ctx, void *data, size_t len)
 }
 #endif
 
-#ifdef HAVE_CAPSICUM
+#if defined(HAVE_CAPSICUM) || defined(__QNX__)
 static ssize_t
 ps_root_dosysctl(unsigned long flags,
     void *data, size_t len, void **rdata, size_t *rlen)
@@ -268,7 +268,7 @@ ps_root_os(struct dhcpcd_ctx *ctx, struct ps_msghdr *psm, struct msghdr *msg,
 		break;
 	case PS_ROUTE:
 		return ps_root_doroute(ctx, data, len);
-#if defined(HAVE_CAPSICUM) || defined(HAVE_PLEDGE)
+#if defined(HAVE_CAPSICUM) || defined(HAVE_PLEDGE) || defined(__QNX__)
 	case PS_IOCTLINDIRECT:
 		err = ps_root_doindirectioctl(ctx, psm->ps_flags, data, len);
 		break;
@@ -277,7 +277,7 @@ ps_root_os(struct dhcpcd_ctx *ctx, struct ps_msghdr *psm, struct msghdr *msg,
 	case PS_IFIGNOREGRP:
 		return ps_root_doifignoregroup(ctx, data, len);
 #endif
-#ifdef HAVE_CAPSICUM
+#if defined(HAVE_CAPSICUM) || defined(__QNX__) 
 	case PS_SYSCTL:
 		*free_rdata = true;
 		return ps_root_dosysctl(psm->ps_flags, data, len, rdata, rlen);
@@ -332,7 +332,7 @@ ps_root_route(struct dhcpcd_ctx *ctx, void *data, size_t len)
 	return ps_root_readerror(ctx, data, len);
 }
 
-#if defined(HAVE_CAPSICUM) || defined(HAVE_PLEDGE)
+#if defined(HAVE_CAPSICUM) || defined(HAVE_PLEDGE) || defined(__QNX__)
 ssize_t
 ps_root_indirectioctl(struct dhcpcd_ctx *ctx, unsigned long request,
     const char *ifname, void *data, size_t len)
@@ -365,7 +365,7 @@ ps_root_ifignoregroup(struct dhcpcd_ctx *ctx, const char *ifname)
 }
 #endif
 
-#ifdef HAVE_CAPSICUM
+#if defined(HAVE_CAPSICUM) || defined(__QNX__)
 ssize_t
 ps_root_sysctl(struct dhcpcd_ctx *ctx,
     const int *name, unsigned int namelen,

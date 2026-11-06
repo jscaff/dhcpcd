@@ -11,6 +11,9 @@
 #define ARC4RANDOM_H
 
 #include <stdint.h>
+#ifdef __QNX__
+#include <stddef.h>
+#endif
 
 uint32_t arc4random(void);
 void arc4random_buf(void *, size_t);

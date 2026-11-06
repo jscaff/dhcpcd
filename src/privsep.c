@@ -179,12 +179,14 @@ ps_dropprivs(struct dhcpcd_ctx *ctx)
 	/* Prohibit writing to files.
 	 * Obviously this won't work if we are using a logfile
 	 * or redirecting stderr to a file. */
+#ifndef __QNX__
 	if ((ctx->options & DHC_NOCHKIO) == DHC_NOCHKIO ||
 	    (ctx->logfile == NULL && isatty(fd_out) == 1))
 	{
 		if (setrlimit(RLIMIT_FSIZE, &rzero) == -1)
 			logerr("setrlimit RLIMIT_FSIZE");
 	}
+#endif
 
 #ifdef RLIMIT_NPROC
 	/* Prohibit forks */

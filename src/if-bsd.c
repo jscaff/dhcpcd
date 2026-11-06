@@ -393,7 +393,7 @@ static int if_indirect_ioctl(struct dhcpcd_ctx *ctx,
 {
 	struct ifreq ifr = { .ifr_flags = 0 };
 
-#if defined(PRIVSEP) && (defined(HAVE_CAPSICUM) || defined(HAVE_PLEDGE))
+#if defined(PRIVSEP) && (defined(HAVE_CAPSICUM) || defined(HAVE_PLEDGE) || defined(__QNX__))
 	if (IN_PRIVSEP(ctx))
 		return (int)ps_root_indirectioctl(ctx, cmd, ifname, data, len);
 #else
@@ -950,7 +950,7 @@ if_sysctl(struct dhcpcd_ctx *ctx,
     const int *name, u_int namelen,
     void *oldp, size_t *oldlenp, void *newp, size_t newlen)
 {
-#if defined(PRIVSEP) && defined(HAVE_CAPSICUM)
+#if defined(PRIVSEP) && (defined(HAVE_CAPSICUM) || defined(__QNX__))
 	if (IN_PRIVSEP(ctx))
 		return (int)ps_root_sysctl(ctx, name, namelen,
 		    oldp, oldlenp, newp, newlen);

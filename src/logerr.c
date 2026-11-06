@@ -39,6 +39,10 @@
 
 #include "logerr.h"
 
+#ifdef __QNX__
+#include "unix.h"
+#endif
+
 #ifndef	LOGERR_SYSLOG_FACILITY
 #define	LOGERR_SYSLOG_FACILITY	LOG_DAEMON
 #endif
